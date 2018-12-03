@@ -12,6 +12,7 @@ __all__ = ["ControlManager", "ControlInterface", "with_ctrl_manager"]
 
 class ControlInterface:
     _DISPLAY_NAME: str
+    _SORT = 0
 
     def teleopPeriodic(self):
         pass
@@ -24,11 +25,20 @@ class ControlInterface:
 
 
 class ControlManager:
-    __slots__ = ["control_mode", "control_interfaces", "control_chooser", "control_chooser_control"]
+    __slots__ = [
+        "control_mode",
+        "control_interfaces",
+        "control_chooser",
+        "control_chooser_control",
+    ]
+
     def __init__(
         self, *interfaces: ControlInterface, dashboard_key: str = "Control Mode"
     ):
         assert len(interfaces) > 0, "No control interfaces given"
+
+        # Sort the interfaces by their _SORT values
+        interfaces = tuple(sorted(interfaces, key=lambda x: x._SORT, reverse=True))
 
         self.control_mode = None
         self.control_interfaces: List[ControlInterface] = []
@@ -81,6 +91,7 @@ class ControlManager:
 
 def with_ctrl_manager(klass):
     from robotpy_ext.misc.annotations import get_class_annotations
+
     def empty_execute(self):
         pass
 
@@ -93,11 +104,9 @@ def with_ctrl_manager(klass):
 
         components = []
         for m in dir(_self):
-            if m.startswith("_") or isinstance(
-                getattr(type(_self), m, True), property
-            ):
+            if m.startswith("_") or isinstance(getattr(type(_self), m, True), property):
                 continue
-            
+
             ctyp = getattr(_self, m, None)
             if ctyp is None:
                 continue
@@ -106,7 +115,6 @@ def with_ctrl_manager(klass):
                 continue
 
             components.append(ctyp)
-
 
         assert (
             len(components) > 0
