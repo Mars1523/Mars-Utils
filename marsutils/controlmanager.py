@@ -86,7 +86,12 @@ class ControlManager:
         if new_selected >= len(self.control_interfaces):
             logger.error(f"Invalid control mode: {new_selected}")
             return
-        self.control_mode = self.control_interfaces[new_selected]
+        if self.control_mode != self.control_interfaces[new_selected]:
+            if self.control_mode is not None:
+                self.control_mode.disabled()
+            self.control_mode = self.control_interfaces[new_selected]
+            if self.control_mode is not None:
+                self.control_mode.enabled()
 
 
 def with_ctrl_manager(klass):
