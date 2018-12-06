@@ -1,6 +1,7 @@
 import wpilib
 import wpilib.drive
 
+
 class Drive:
     l_motor: wpilib.Spark
     r_motor: wpilib.Spark

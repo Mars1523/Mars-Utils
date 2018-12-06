@@ -6,6 +6,7 @@ import marsutils
 
 import drive
 
+
 class JoystickControl(marsutils.ControlInterface):
     """
         Implements control via a joystick
@@ -18,11 +19,7 @@ class JoystickControl(marsutils.ControlInterface):
     drive: drive.Drive
 
     def teleopPeriodic(self):
-        self.drive.drive(
-            -self.stick.getY(),
-            self.stick.getZ(),
-        )
-
+        self.drive.drive(-self.stick.getY(), self.stick.getZ())
 
 
 @marsutils.with_ctrl_manager
@@ -35,6 +32,7 @@ class MyRobot(magicbot.MagicRobot):
 
         self.l_motor = wpilib.Spark(1)
         self.r_motor = wpilib.Spark(2)
+
 
 if __name__ == "__main__":
     wpilib.run(MyRobot)
