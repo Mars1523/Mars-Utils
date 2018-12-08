@@ -5,7 +5,8 @@
 
 from setuptools import setup, find_packages
 
-requirements = ["pyfrc", "wpilib"]
+with open("README.md", "r") as fh:
+    long_description = fh.read()
 
 setup(
     author="Noskcaj19",
@@ -14,16 +15,16 @@ setup(
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
         "Natural Language :: English",
-        "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.4",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
     ],
-    description="Utilities for",
-    install_requires=requirements,
+    description="Utilities for building frc robots",
+    long_description_content_type="text/markdown",
+    long_description=long_description,
+    install_requires=["pyfrc", "wpilib"],
     license="License :: OSI Approved :: MIT License",
     include_package_data=True,
     name="marsutils",
