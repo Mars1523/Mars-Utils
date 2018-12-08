@@ -2,3 +2,6 @@
 /.vscode/
 py_cache/
 *.pyc
+*.egg-info/
+/build/
+/dist/
