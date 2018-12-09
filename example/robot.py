@@ -36,7 +36,6 @@ class MyRobot(magicbot.MagicRobot):
 
     def setup(self):
         print("Setup called")
-        self.x()
 
 
 if __name__ == "__main__":
