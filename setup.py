@@ -24,7 +24,7 @@ setup(
     description="Utilities for building frc robots",
     long_description_content_type="text/markdown",
     long_description=long_description,
-    install_requires=["pyfrc", "wpilib"],
+    install_requires=["pynetworktables", "wpilib"],
     license="License :: OSI Approved :: MIT License",
     include_package_data=True,
     name="marsutils",
