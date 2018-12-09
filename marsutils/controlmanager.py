@@ -11,6 +11,15 @@ __all__ = ["ControlManager", "ControlInterface", "with_ctrl_manager", "provide_s
 
 
 class ControlInterface:
+    """
+        ``ControlInterface`` is the base class that all interfaces must subclass to
+        be used with :class:`.ControlManager`.
+
+        You must define a ``_DISPLAY_NAME``. This value will be displayed in the dashboard chooser.
+        Optionally, you can define a ``_SORT`` value. The larger the value, the higher priority
+        it will be given in the chooser.
+    """
+
     _DISPLAY_NAME: str
     _SORT = 0
 
@@ -25,6 +34,20 @@ class ControlInterface:
 
 
 class ControlManager:
+    """
+        This class manages creating a dashboard chooser and the periodic
+        calling of a series of "control interface" components.
+
+        Each control interface must subclass :class:`ControlInterface` and define ``_DISPLAY_NAME``.
+
+        Once this has been initalized with the list of interfaces, you must manually call
+        every event function you want your components to recive, like "teleopPeridic" and
+        "teleopInit" and they will be forwarded to the active interface"
+        
+        You can optionally define a ``_SORT`` value for your interfaces.
+        The larger the value, the higher priority it will be given in the chooser.
+    """
+
     __slots__ = [
         "control_mode",
         "control_interfaces",
@@ -77,9 +100,6 @@ class ControlManager:
             self.control_mode.teleopPeriodic()
 
     def control_mode_changed(self, new_value):
-        """
-            Network tables callback to update control mode
-        """
         new_selected: int = self.control_chooser.getSelected()
         if new_selected is None:
             return
@@ -95,6 +115,14 @@ class ControlManager:
 
 
 def with_ctrl_manager(klass):
+    """
+    A decorator to be used with ``MagicRobot`` robot classes which
+    automatically processes :class:`ControlInterface` members
+
+    Any :class:`ControlInterface` with a ``_DISPLAY_NAME`` variable
+    defined will be added to a chooser on the dashboard and its associated
+    methods will be automatically called
+    """
     from robotpy_ext.misc.annotations import get_class_annotations
 
     def empty_execute(self):
@@ -141,6 +169,12 @@ def with_ctrl_manager(klass):
 
 
 def provide_setup(klass):
+    """
+        As the ``MagicRobot`` class uses the ``robotInit()`` method, this decorator
+        provides ``MagicRobot`` classes with a ``setup()`` function that is called
+        after the ``createObjects()`` function is called
+    """
+
     def robotInitSetup(_self):
         _self.__old_robotInit_setup()
 
