@@ -23,6 +23,7 @@ class JoystickControl(marsutils.ControlInterface):
 
 
 @marsutils.with_ctrl_manager
+@marsutils.provide_setup
 class MyRobot(magicbot.MagicRobot):
     drive: drive.Drive
     stick_control: JoystickControl
@@ -32,6 +33,10 @@ class MyRobot(magicbot.MagicRobot):
 
         self.l_motor = wpilib.Spark(1)
         self.r_motor = wpilib.Spark(2)
+
+    def setup(self):
+        print("Setup called")
+        self.x()
 
 
 if __name__ == "__main__":

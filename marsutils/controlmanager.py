@@ -7,7 +7,7 @@ import logging
 
 logger = logging.getLogger("marsutils")
 
-__all__ = ["ControlManager", "ControlInterface", "with_ctrl_manager"]
+__all__ = ["ControlManager", "ControlInterface", "with_ctrl_manager", "provide_setup"]
 
 
 class ControlInterface:
@@ -105,7 +105,7 @@ def with_ctrl_manager(klass):
             ctyp.execute = empty_execute
 
     def robotInit(_self):
-        _self.__old_robotInit()
+        _self.__old_robotInit_ctrlmgnr()
 
         components = []
         for m in dir(_self):
@@ -127,7 +127,7 @@ def with_ctrl_manager(klass):
 
         _self.__control_manager = ControlManager(*components)
 
-    klass.__old_robotInit = klass.robotInit
+    klass.__old_robotInit_ctrlmgnr = klass.robotInit
     klass.robotInit = robotInit
 
     def teleopPeriodic(_self):
@@ -136,5 +136,24 @@ def with_ctrl_manager(klass):
 
     klass.__old_teleopPeriodic = klass.teleopPeriodic
     klass.teleopPeriodic = teleopPeriodic
+
+    return klass
+
+
+def provide_setup(klass):
+    def robotInitSetup(_self):
+        _self.__old_robotInit_setup()
+
+        if hasattr(klass, "setup"):
+            _self.setup()
+        else:
+            logger.warning(
+                "{} was wrapped with @provide_setup but no setup() function was found".format(
+                    klass
+                )
+            )
+
+    klass.__old_robotInit_setup = klass.robotInit
+    klass.robotInit = robotInitSetup
 
     return klass
