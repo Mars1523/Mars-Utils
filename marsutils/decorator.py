@@ -1,3 +1,6 @@
+from .controlmanager import ControlInterface, ControlManager
+
+
 def with_ctrl_manager(klass):
     """
     A decorator to be used with ``MagicRobot`` robot classes which
