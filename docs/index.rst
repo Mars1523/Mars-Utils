@@ -1,14 +1,15 @@
 MARS Utilties documentation
 ===========================
 
-.. autoclass:: marsutils.controlmanager.ControlInterface
-    :members:
-    :undoc-members:
-    :show-inheritance:
+mars-utils is a library of miscellaneous bits of code and a few utilities that
+were used to build MARS robots.
 
-.. automodule:: marsutils.controlmanager
-    :members:
-    :exclude-members: ControlInterface
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   control_manager
+   decorators
 
 
 Indices and tables

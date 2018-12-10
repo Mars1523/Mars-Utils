@@ -3,6 +3,7 @@ import wpilib
 from wpilib.interfaces.generichid import GenericHID
 
 import marsutils
+from marsutils.decorator import *
 
 import drive
 
@@ -22,8 +23,8 @@ class JoystickControl(marsutils.ControlInterface):
         self.drive.drive(-self.stick.getY(), self.stick.getZ())
 
 
-@marsutils.with_ctrl_manager
-@marsutils.provide_setup
+@with_ctrl_manager
+@provide_setup
 class MyRobot(magicbot.MagicRobot):
     drive: drive.Drive
     stick_control: JoystickControl
