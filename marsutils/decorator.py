@@ -71,9 +71,9 @@ def provide_setup(klass):
         if hasattr(klass, "setup"):
             _self.setup()
         else:
-            logger.warning(
-                "{} was wrapped with @provide_setup but no setup() function was found".format(
-                    klass
+            _self.logger.warning(
+                "Robot `{}` was wrapped with @provide_setup but no setup() function was found".format(
+                    klass.__name__
                 )
             )
 
