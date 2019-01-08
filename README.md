@@ -2,6 +2,9 @@
 
 Utilties for building better robot code
 
+
+View the docs online at [Read the Docs](https://mars-utils.readthedocs.io/en/latest/)
+
 ## ControlManager
 
 `ControlManager` provides a wrapper that makes making alternate control modes (alternate drivers, different controlers) incredibly simple. It is designed primarially for MagicRobot components, however, it should work with any type.

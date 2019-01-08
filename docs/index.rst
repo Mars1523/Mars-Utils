@@ -10,6 +10,7 @@ were used to build MARS robots.
 
    control_manager
    decorators
+   math
 
 
 Indices and tables
