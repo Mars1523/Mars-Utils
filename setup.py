@@ -28,7 +28,6 @@ setup(
         "pynetworktables",
         "robotpy-wpilib-utilities",
         "robotpy-hal-base",
-        "robotpy-hal-sim",
         "wpilib",
     ],
     license="License :: OSI Approved :: MIT License",
