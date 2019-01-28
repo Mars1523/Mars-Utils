@@ -13,9 +13,9 @@ class ControlInterface:
         ``ControlInterface`` is the base class that all interfaces must subclass to
         be used with :class:`.ControlManager`.
 
-        You must define a ``_DISPLAY_NAME``. This value will be displayed in the dashboard chooser.
-        Optionally, you can define a ``_SORT`` value. The larger the value, the higher priority
-        it will be given in the chooser.
+        You must define a ``_DISPLAY_NAME``. This value will be displayed in the 
+        dashboard chooser. Optionally, you can define a ``_SORT`` value. The larger
+        the value, the higher priority it will be given in the chooser.
     """
 
     _DISPLAY_NAME: str
@@ -36,11 +36,13 @@ class ControlManager:
         This class manages creating a dashboard chooser and the periodic
         calling of a series of "control interface" components.
 
-        Each control interface must subclass :class:`ControlInterface` and define ``_DISPLAY_NAME``.
+        Each control interface must subclass :class:`ControlInterface` and
+        define ``_DISPLAY_NAME``.
 
-        Once this has been initalized with the list of interfaces, you must manually call
-        every event function you want your components to recive, like "teleopPeridic" and
-        "teleopInit" and they will be forwarded to the active interface"
+        Once this has been initalized with the list of interfaces, you must manually
+        call every event function you want your components to recive, like
+        "teleopPeridic" and "teleopInit" and they will be forwarded to the active
+        interface
         
         You can optionally define a ``_SORT`` value for your interfaces.
         The larger the value, the higher priority it will be given in the chooser.

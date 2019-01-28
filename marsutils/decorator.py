@@ -72,7 +72,8 @@ def provide_setup(klass):
             _self.setup()
         else:
             _self.logger.warning(
-                "Robot `{}` was wrapped with @provide_setup but no setup() function was found".format(
+                "Robot `{}` was wrapped with @provide_setup but no setup() function \
+                was found".format(
                     klass.__name__
                 )
             )
