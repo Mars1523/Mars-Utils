@@ -83,9 +83,9 @@ class ControlManager:
             # Make the first entry the default
             # TODO: Configurable?
             if i == 0:
-                self.control_chooser.addDefault(mode._DISPLAY_NAME, i)
+                self.control_chooser.setDefaultOption(mode._DISPLAY_NAME, i)
             else:
-                self.control_chooser.addObject(mode._DISPLAY_NAME, i)
+                self.control_chooser.addOption(mode._DISPLAY_NAME, i)
 
         wpilib.SmartDashboard.putData(dashboard_key, self.control_chooser)
 
