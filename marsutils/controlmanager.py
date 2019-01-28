@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 import wpilib
 from networktables.util import ChooserControl
@@ -46,6 +46,11 @@ class ControlManager:
         
         You can optionally define a ``_SORT`` value for your interfaces.
         The larger the value, the higher priority it will be given in the chooser.
+
+        If ``dashboard_key`` is None, then the control chooser will not be added
+        automatically, use this if you are using the Shuffleboard API or want a
+        different root path. The control chooser can be accessed from
+        ``control_chooser``
     """
 
     __slots__ = [
@@ -56,7 +61,9 @@ class ControlManager:
     ]
 
     def __init__(
-        self, *interfaces: ControlInterface, dashboard_key: str = "Control Mode"
+        self,
+        *interfaces: ControlInterface,
+        dashboard_key: Optional[str] = "Control Mode",
     ):
         assert len(interfaces) > 0, "No control interfaces given"
 
@@ -89,7 +96,8 @@ class ControlManager:
             else:
                 self.control_chooser.addOption(mode._DISPLAY_NAME, i)
 
-        wpilib.SmartDashboard.putData(dashboard_key, self.control_chooser)
+        if dashboard_key is not None:
+            wpilib.SmartDashboard.putData(dashboard_key, self.control_chooser)
 
         self.control_chooser_control = ChooserControl(
             dashboard_key, on_selected=self.control_mode_changed
