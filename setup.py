@@ -11,7 +11,7 @@ with open("README.md", "r") as fh:
 setup(
     author="Noskcaj19",
     classifiers=[
-        "Development Status :: 2 - Pre-Alpha",
+        "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
         "Natural Language :: English",
@@ -35,5 +35,5 @@ setup(
     name="marsutils",
     packages=find_packages(include=["marsutils"]),
     url="https://github.com/Mars1523/Mars-Utils",
-    version="0.3.1",
+    version="0.4.0",
 )

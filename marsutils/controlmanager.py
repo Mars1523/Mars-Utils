@@ -101,14 +101,14 @@ class ControlManager:
             wpilib.SmartDashboard.putData(dashboard_key, self.control_chooser)
 
             self.control_chooser_control = ChooserControl(
-                dashboard_key, on_selected=self.control_mode_changed
+                dashboard_key, on_selected=self._control_mode_changed
             )
 
     def teleopPeriodic(self):
         if self.control_mode is not None:
             self.control_mode.teleopPeriodic()
 
-    def control_mode_changed(self, _source, _key, _value):
+    def _control_mode_changed(self, *args):
         new_selected: int = self.control_chooser.getSelected()
         if new_selected is None:
             return
@@ -122,11 +122,11 @@ class ControlManager:
             if self.control_mode is not None:
                 self.control_mode.enabled()
 
-    def setup_lister(self, dashboard_key):
+    def setup_listener(self, dashboard_key):
         """
             If you construct the ControlManager with a None dashboard_key, you
             must call this function with the full networktables path to connect
             the callback for the mode to be properly updated
         """
         table = NetworkTables.getTable(dashboard_key)
-        table.addEntryListener(self.control_mode_changed, True)
+        table.addEntryListener(self._control_mode_changed, True)

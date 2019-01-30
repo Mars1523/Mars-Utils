@@ -24,7 +24,7 @@ class JoystickControl(marsutils.ControlInterface):
 
 
 @with_ctrl_manager
-@provide_setup
+@with_setup
 class MyRobot(magicbot.MagicRobot):
     drive: drive.Drive
     stick_control: JoystickControl

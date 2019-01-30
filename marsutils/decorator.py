@@ -10,7 +10,7 @@ def with_ctrl_manager(klass):
     defined will be added to a chooser on the dashboard and its associated
     methods will be automatically called
 
-    If the ``_CONTROL_CHOOSER_DASHBOARD_KEY`` class variable is set, that value
+    If the ``_CONTROL_CHOOSER_KEY`` class variable is set, that value
     will be provided to the :class:`ControlManager`
     """
     from robotpy_ext.misc.annotations import get_class_annotations
@@ -22,7 +22,7 @@ def with_ctrl_manager(klass):
         if not hasattr(ctyp, "execute"):
             ctyp.execute = empty_execute
 
-    dashboard_key = getattr(klass, "_CONTROL_CHOOSER_DASHBOARD_KEY", "Control Mode")
+    dashboard_key = getattr(klass, "_CONTROL_CHOOSER_KEY", "Control Mode")
 
     def robotInit(_self):
         _self.__old_robotInit_ctrlmgnr()
@@ -62,7 +62,7 @@ def with_ctrl_manager(klass):
     return klass
 
 
-def provide_setup(klass):
+def with_setup(klass):
     """
         As the ``MagicRobot`` class uses the ``robotInit()`` method, this decorator
         provides ``MagicRobot`` classes with a ``setup()`` function that is called
@@ -79,7 +79,7 @@ def provide_setup(klass):
             _self.setup()
         else:
             _self.logger.warning(
-                "Robot `{}` was wrapped with @provide_setup but no setup() function \
+                "Robot `{}` was wrapped with @with_setup but no setup() function \
                 was found".format(
                     klass.__name__
                 )
