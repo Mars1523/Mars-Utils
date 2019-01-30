@@ -9,6 +9,9 @@ def with_ctrl_manager(klass):
     Any :class:`ControlInterface` with a ``_DISPLAY_NAME`` variable
     defined will be added to a chooser on the dashboard and its associated
     methods will be automatically called
+
+    If the ``_CONTROL_CHOOSER_DASHBOARD_KEY`` class variable is set, that value
+    will be provided to the :class:`ControlManager`
     """
     from robotpy_ext.misc.annotations import get_class_annotations
 
@@ -18,6 +21,8 @@ def with_ctrl_manager(klass):
     for m, ctyp in get_class_annotations(klass).items():
         if not hasattr(ctyp, "execute"):
             ctyp.execute = empty_execute
+
+    dashboard_key = getattr(klass, "_CONTROL_CHOOSER_DASHBOARD_KEY", "Control Mode")
 
     def robotInit(_self):
         _self.__old_robotInit_ctrlmgnr()
@@ -40,13 +45,15 @@ def with_ctrl_manager(klass):
             len(components) > 0
         ), "No valid control components found. Do they subclass ControlInterface?"
 
-        _self.__control_manager = ControlManager(*components)
+        _self._control_manager = ControlManager(
+            *components, dashboard_key=dashboard_key
+        )
 
     klass.__old_robotInit_ctrlmgnr = klass.robotInit
     klass.robotInit = robotInit
 
     def teleopPeriodic(_self):
-        _self.__control_manager.teleopPeriodic()
+        _self._control_manager.teleopPeriodic()
         _self.__old_teleopPeriodic()
 
     klass.__old_teleopPeriodic = klass.teleopPeriodic

@@ -2,6 +2,7 @@ from typing import List, Optional
 
 import wpilib
 from networktables.util import ChooserControl
+from networktables import NetworkTables
 
 import logging
 
@@ -13,7 +14,7 @@ class ControlInterface:
         ``ControlInterface`` is the base class that all interfaces must subclass to
         be used with :class:`.ControlManager`.
 
-        You must define a ``_DISPLAY_NAME``. This value will be displayed in the 
+        You must define a ``_DISPLAY_NAME``. This value will be displayed in the
         dashboard chooser. Optionally, you can define a ``_SORT`` value. The larger
         the value, the higher priority it will be given in the chooser.
     """
@@ -43,7 +44,7 @@ class ControlManager:
         call every event function you want your components to recive, like
         "teleopPeridic" and "teleopInit" and they will be forwarded to the active
         interface
-        
+
         You can optionally define a ``_SORT`` value for your interfaces.
         The larger the value, the higher priority it will be given in the chooser.
 
@@ -99,15 +100,15 @@ class ControlManager:
         if dashboard_key is not None:
             wpilib.SmartDashboard.putData(dashboard_key, self.control_chooser)
 
-        self.control_chooser_control = ChooserControl(
-            dashboard_key, on_selected=self.control_mode_changed
-        )
+            self.control_chooser_control = ChooserControl(
+                dashboard_key, on_selected=self.control_mode_changed
+            )
 
     def teleopPeriodic(self):
         if self.control_mode is not None:
             self.control_mode.teleopPeriodic()
 
-    def control_mode_changed(self, new_value):
+    def control_mode_changed(self, _source, _key, _value):
         new_selected: int = self.control_chooser.getSelected()
         if new_selected is None:
             return
@@ -121,3 +122,11 @@ class ControlManager:
             if self.control_mode is not None:
                 self.control_mode.enabled()
 
+    def setup_lister(self, dashboard_key):
+        """
+            If you construct the ControlManager with a None dashboard_key, you
+            must call this function with the full networktables path to connect
+            the callback for the mode to be properly updated
+        """
+        table = NetworkTables.getTable(dashboard_key)
+        table.addEntryListener(self.control_mode_changed, True)
