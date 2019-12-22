@@ -1,4 +1,4 @@
-# Mars Utlities
+# Mars Utilities
 
 Utilties for building better robot code
 

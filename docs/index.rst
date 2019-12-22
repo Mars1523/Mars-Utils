@@ -1,5 +1,5 @@
-MARS Utilties documentation
-===========================
+MARS Utilities documentation
+============================
 
 mars-utils is a library of miscellaneous bits of code and a few utilities that
 were used to build MARS robots.
