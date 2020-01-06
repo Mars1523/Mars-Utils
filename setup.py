@@ -35,5 +35,5 @@ setup(
     name="marsutils",
     packages=find_packages(include=["marsutils"]),
     url="https://github.com/Mars1523/Mars-Utils",
-    version="0.4.0",
+    version="0.5.0",
 )
